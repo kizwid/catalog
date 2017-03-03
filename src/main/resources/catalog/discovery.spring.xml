@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       default-autowire="byName">
+
+    <bean id="common.configurationEncryptorConfig"
+          class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+        <property name="algorithm" value="PBEWithMD5AndDES"/>
+        <property name="passwordSysPropertyName" value="secret"/>
+    </bean>
+
+    <bean id="common.configurationEncryptor"
+          class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+        <property name="config" ref="common.configurationEncryptorConfig"/>
+    </bean>
+
+    <bean id="common.propertyEncryptor" class="sandkev.security.PropertyEncryptor">
+        <constructor-arg ref="common.configurationEncryptor"/>
+    </bean>
+
+    <bean id="common.properties" class="org.jasypt.spring.properties.EncryptablePropertyPlaceholderConfigurer">
+        <constructor-arg ref="common.propertyEncryptor"/>
+        <property name="locations">
+            <list>
+                <value>classpath:catalog.properties</value>
+            </list>
+        </property>
+        <!-- Allow override of properties from the commandline for emergency overrides. -->
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+    </bean>
+
+
+</beans>

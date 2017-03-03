@@ -1,0 +1,134 @@
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+<!--
+    CSS
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?3.12/build/widget-base/assets/skins/sam/widget-base.css&3.12/build/cssbutton/cssbutton-min.css&3.12/build/widget-modality/assets/skins/sam/widget-modality.css&3.12/build/widget-stack/assets/skins/sam/widget-stack.css&3.12/build/panel/assets/skins/sam/panel.css&3.12/build/datatable-base/assets/skins/sam/datatable-base.css&3.12/build/datatable-message/assets/skins/sam/datatable-message.css&3.12/build/datatable-sort/assets/skins/sam/datatable-sort.css">
+
+
+    <script type="text/javascript" src="http://yui.yahooapis.com/combo?3.12/build/yui-base/yui-base-min.js&3.12/build/cookie/cookie-min.js&3.12/build/oop/oop-min.js&3.12/build/event-custom-base/event-custom-base-min.js&3.12/build/features/features-min.js&3.12/build/dom-core/dom-core-min.js&3.12/build/dom-base/dom-base-min.js&3.12/build/selector-native/selector-native-min.js&3.12/build/selector/selector-min.js&3.12/build/node-core/node-core-min.js&3.12/build/node-base/node-base-min.js&3.12/build/event-base/event-base-min.js&3.12/build/event-delegate/event-delegate-min.js&3.12/build/node-event-delegate/node-event-delegate-min.js&3.12/build/pluginhost-base/pluginhost-base-min.js&3.12/build/pluginhost-config/pluginhost-config-min.js&3.12/build/node-pluginhost/node-pluginhost-min.js&3.12/build/dom-style/dom-style-min.js&3.12/build/dom-screen/dom-screen-min.js&3.12/build/node-screen/node-screen-min.js&3.12/build/node-style/node-style-min.js&3.12/build/attribute-core/attribute-core-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/combo?3.12/build/event-custom-complex/event-custom-complex-min.js&3.12/build/attribute-events/attribute-events-min.js&3.12/build/attribute-extras/attribute-extras-min.js&3.12/build/attribute-base/attribute-base-min.js&3.12/build/attribute-complex/attribute-complex-min.js&3.12/build/base-core/base-core-min.js&3.12/build/base-base/base-base-min.js&3.12/build/base-pluginhost/base-pluginhost-min.js&3.12/build/classnamemanager/classnamemanager-min.js&3.12/build/event-synthetic/event-synthetic-min.js&3.12/build/event-focus/event-focus-min.js&3.12/build/widget-base/widget-base-min.js&3.12/build/widget-htmlparser/widget-htmlparser-min.js&3.12/build/widget-skin/widget-skin-min.js&3.12/build/widget-uievents/widget-uievents-min.js&3.12/build/base-build/base-build-min.js&3.12/build/event-key/event-key-min.js&3.12/build/event-outside/event-outside-min.js&3.12/build/widget-autohide/widget-autohide-min.js&3.12/build/button-core/button-core-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/combo?3.12/build/button-plugin/button-plugin-min.js&3.12/build/widget-stdmod/widget-stdmod-min.js&3.12/build/widget-buttons/widget-buttons-min.js&3.12/build/widget-modality/widget-modality-min.js&3.12/build/widget-position/widget-position-min.js&3.12/build/widget-position-align/widget-position-align-min.js&3.12/build/widget-position-constrain/widget-position-constrain-min.js&3.12/build/widget-stack/widget-stack-min.js&3.12/build/panel/panel-min.js&3.12/build/json-parse/json-parse-min.js&3.12/build/escape/escape-min.js&3.12/build/array-extras/array-extras-min.js&3.12/build/array-invoke/array-invoke-min.js&3.12/build/arraylist/arraylist-min.js&3.12/build/model/model-min.js&3.12/build/model-list/model-list-min.js&3.12/build/datatable-core/datatable-core-min.js&3.12/build/view/view-min.js&3.12/build/datatable-head/datatable-head-min.js&3.12/build/datatable-body/datatable-body-min.js&3.12/build/datatable-table/datatable-table-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/combo?3.12/build/datatable-base/datatable-base-min.js&3.12/build/datatable-column-widths/datatable-column-widths-min.js&3.12/build/intl-base/intl-base-min.js&3.12/build/intl/intl-min.js&3.12/build/datatable-message/lang/datatable-message.js&3.12/build/datatable-message/datatable-message-min.js&3.12/build/datatable-mutable/datatable-mutable-min.js&3.12/build/datatable-sort/lang/datatable-sort.js&3.12/build/datatable-sort/datatable-sort-min.js&3.12/build/datasource-local/datasource-local-min.js&3.12/build/plugin/plugin-min.js&3.12/build/datatable-datasource/datatable-datasource-min.js&3.12/build/querystring-stringify-simple/querystring-stringify-simple-min.js&3.12/build/io-base/io-base-min.js&3.12/build/datasource-io/datasource-io-min.js&3.12/build/get/get-min.js&3.12/build/datasource-get/datasource-get-min.js&3.12/build/datasource-function/datasource-function-min.js&3.12/build/cache-base/cache-base-min.js&3.12/build/datasource-cache/datasource-cache-min.js"></script>
+    <script type="text/javascript" src="http://yui.yahooapis.com/combo?3.12/build/json-stringify/json-stringify-min.js&3.12/build/dataschema-base/dataschema-base-min.js&3.12/build/dataschema-json/dataschema-json-min.js&3.12/build/datasource-jsonschema/datasource-jsonschema-min.js&3.12/build/datatype-xml-parse/datatype-xml-parse-min.js&3.12/build/datatype-xml-format/datatype-xml-format-min.js&3.12/build/dataschema-xml/dataschema-xml-min.js&3.12/build/datasource-xmlschema/datasource-xmlschema-min.js&3.12/build/dataschema-array/dataschema-array-min.js&3.12/build/datasource-arrayschema/datasource-arrayschema-min.js&3.12/build/dataschema-text/dataschema-text-min.js&3.12/build/datasource-textschema/datasource-textschema-min.js&3.12/build/datasource-polling/datasource-polling-min.js"></script>
+
+-->
+    <script src="http://yui.yahooapis.com/3.12/build/yui/yui-min.js"></script>
+
+    <!-- YUI CSS -->
+    <script type="text/javascript" src="yui/3.12/build/widget-base/assets/skins/sam/widget-base.css"></script>
+    <script type="text/javascript" src="yui/3.12/build/cssbutton/cssbutton-min.css"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-modality/assets/skins/sam/widget-modality.css"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-stack/assets/skins/sam/widget-stack.css"></script>
+    <script type="text/javascript" src="yui/3.12/build/panel/assets/skins/sam/panel.css"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-base/assets/skins/sam/datatable-base.css"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-message/assets/skins/sam/datatable-message.css"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-sort/assets/skins/sam/datatable-sort.css"></script>
+
+
+    <!-- YUI JS-->
+    <script type="text/javascript" src="yui/3.12/build/yui-base/yui-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/cookie/cookie-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/oop/oop-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/event-custom-base/event-custom-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/features/features-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dom-core/dom-core-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dom-base/dom-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/selector-native/selector-native-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/selector/selector-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/node-core/node-core-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/node-base/node-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/event-base/event-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/event-delegate/event-delegate-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/node-event-delegate/node-event-delegate-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/pluginhost-base/pluginhost-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/pluginhost-config/pluginhost-config-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/node-pluginhost/node-pluginhost-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dom-style/dom-style-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dom-screen/dom-screen-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/node-screen/node-screen-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/node-style/node-style-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/attribute-core/attribute-core-min.js"></script>
+
+    <script type="text/javascript" src="yui/3.12/build/event-custom-complex/event-custom-complex-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/attribute-events/attribute-events-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/attribute-extras/attribute-extras-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/attribute-base/attribute-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/attribute-complex/attribute-complex-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/base-core/base-core-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/base-base/base-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/base-pluginhost/base-pluginhost-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/classnamemanager/classnamemanager-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/event-synthetic/event-synthetic-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/event-focus/event-focus-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-base/widget-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-htmlparser/widget-htmlparser-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-skin/widget-skin-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-uievents/widget-uievents-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/base-build/base-build-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/event-key/event-key-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/event-outside/event-outside-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-autohide/widget-autohide-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/button-core/button-core-min.js"></script>
+
+    <script type="text/javascript" src="yui/3.12/build/button-plugin/button-plugin-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-stdmod/widget-stdmod-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-buttons/widget-buttons-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-modality/widget-modality-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-position/widget-position-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-position-align/widget-position-align-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-position-constrain/widget-position-constrain-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/widget-stack/widget-stack-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/panel/panel-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/json-parse/json-parse-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/escape/escape-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/array-extras/array-extras-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/array-invoke/array-invoke-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/arraylist/arraylist-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/model/model-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/model-list/model-list-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-core/datatable-core-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/view/view-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-head/datatable-head-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-body/datatable-body-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-table/datatable-table-min.js"></script>
+
+    <script type="text/javascript" src="yui/3.12/build/datatable-base/datatable-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-column-widths/datatable-column-widths-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/intl-base/intl-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/intl/intl-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-message/lang/datatable-message.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-message/datatable-message-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-mutable/datatable-mutable-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-sort/lang/datatable-sort.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-sort/datatable-sort-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-local/datasource-local-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/plugin/plugin-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatable-datasource/datatable-datasource-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/querystring-stringify-simple/querystring-stringify-simple-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/io-base/io-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-io/datasource-io-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/get/get-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-get/datasource-get-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-function/datasource-function-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/cache-base/cache-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-cache/datasource-cache-min.js"></script>
+
+    <script type="text/javascript" src="yui/3.12/build/json-stringify/json-stringify-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dataschema-base/dataschema-base-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dataschema-json/dataschema-json-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-jsonschema/datasource-jsonschema-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatype-xml-parse/datatype-xml-parse-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datatype-xml-format/datatype-xml-format-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dataschema-xml/dataschema-xml-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-xmlschema/datasource-xmlschema-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dataschema-array/dataschema-array-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-arrayschema/datasource-arrayschema-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/dataschema-text/dataschema-text-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-textschema/datasource-textschema-min.js"></script>
+    <script type="text/javascript" src="yui/3.12/build/datasource-polling/datasource-polling-min.js"></script>
+
+
+    <!-- home brewed js -->
+    <script type="text/javascript" src="js/functional-tools.js"></script>
+    <script type="text/javascript">window.onload=function(){initDashboard();}</script>

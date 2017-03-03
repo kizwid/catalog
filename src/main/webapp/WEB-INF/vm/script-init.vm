@@ -1,0 +1,332 @@
+<script type="text/javascript">
+
+	functionalTools.init();
+	
+	var cols = $keyMappingColumnJson;  
+
+    //----------------------------------------//
+    //   define the data sources and tables
+    //----------------------------------------//
+    var keyMappingDataSource = createDataSource( "control?Action=GetData&User=$User", cols.map(getKeys));
+    
+    function getTableConfig(){
+    	
+    	return {
+                paginator: new YAHOO.widget.Paginator({
+                    rowsPerPage: 50
+                }),
+                scrollable:true, width:"100%", height:"50em", selectionMode:"single"
+        };
+    }
+    
+    var keyMappingTable = decorateTable(new YAHOO.widget.DataTable("dashboardDetailList", cols, keyMappingDataSource, getTableConfig()), document.getElementById("dashboardFilterBreadcrumb"),YAHOO.util.Dom.get('dashboardFilterValue'),["IsDeleted"], {key:"IsDeleted", value:"N"});
+
+    updateFilter = function (tableId, filterColumn, filterText) {
+
+        var targetTable =  getTableById(tableId);
+        var filterQuery = targetTable.filterQuery;
+        var query;
+        
+        if( !filterText || filterText === ""){
+            
+        	if(filterQuery.getQuery().length === 0){ return; }
+            query = filterQuery.clear(filterColumn);
+            targetTable['filterTextBox'].value="";  
+            
+        }else {
+            query = filterQuery.append( {key:filterColumn, value:htmlEncode(filterText)} );
+        }
+
+        targetTable.refreshDataSource(query);
+    };
+
+    YAHOO.util.Event.on('dashboardFilterValue','keyup',function (e) {
+        setTimeout( "updateFilter('" + keyMappingTable.getId() +"',YAHOO.util.Dom.get('dashboardFilterList').value, YAHOO.util.Dom.get('dashboardFilterValue').value)", 600);
+    });
+    
+    function initDashboard()
+    {
+    	
+        var initFunction = new function()
+        {
+
+            //this is the trick I used to hide the html
+            createEditDialog( null, [{Id:-1}]).moveTo(-1000,-1000);
+            
+			// add event listeners
+            keyMappingTable.subscribe("rowClickEvent", keyMappingTable.onEventSelectRow); 
+
+            #if( $HasWriteAccess )
+            keyMappingTable.subscribe("rowDblclickEvent", function (e, target) {
+                var oRecord = keyMappingTable.getRecord(e.target);
+                saveOrUpdateRecord(oRecord.getData());
+            });
+
+            #end
+            
+
+            //---------------------------------//
+            //      add tabs
+            //---------------------------------//
+            var tabView = new YAHOO.widget.TabView();
+           	tabView.addTab(new YAHOO.widget.Tab({label: 'Tesla Key Mapper', contentEl: document.getElementById('dashboard'), active: true }));
+
+            //forward the click event from the tab to the key Mapping Table
+            tabView.getTab(0).addListener("click", function() {keyMappingTable.refreshDataSource(keyMappingTable['filterQuery'].getQuery());});
+
+            tabView.appendTo('container');
+
+            // defined in utils.js
+            populateFilter(cols, 'dashboardFilterList'); 
+
+            return {
+                oDS: keyMappingDataSource,
+                oDT: keyMappingTable,
+                oTV: tabView
+            };
+
+        };
+        
+    }
+
+    
+function populateDialogFromRow(columns, rowData) {
+
+    for(var n = 0; n < columns.length; n++ ){
+    	
+        try {
+            var columnName = columns[n].key;
+            var value = rowData[columnName];
+            if( typeof value === "undefined"){
+                value = "";
+            }
+            document.getElementById('editField' + columnName).value = htmlDecode(value);
+            
+        }catch (e) {          }
+
+    };
+
+}
+
+function saveOrUpdateRecord(rowData){
+		
+	var handleSubmitSuccess = function(o) {
+		    keyMappingTable.refreshDataSource(keyMappingTable['filterQuery'].getQuery());
+		};
+		
+    var editDialog = createEditDialog( handleSubmitSuccess, rowData );
+
+    if( rowData !== null){
+    	
+        populateDialogFromRow(cols, rowData);
+        
+        editDialog.render();
+        if( rowData.IsDeleted === "N"){
+        	editDialog.show();
+        } else {
+        	editDialog.submit();
+        }
+    };
+}
+
+var simpleFailureHandler = function(o) {
+	
+    alert('Submission failed'
+    + '\nstatus=' + o.status
+    + '\nstatusText=' + o.statusText
+    + '\n' + o.responseText
+    + '\n\nPlease reload the page.');
+};
+
+
+function createEditDialog(handleSuccess, rowData){
+	
+	var oldBusiness = rowData['Business'];
+	var oldHandleType = rowData['HandleType'];
+	var oldHandleTemplate = htmlDecode(rowData['HandleTemplate']);
+	
+	var handleCreate = function() {
+		
+        document.getElementById('editFieldId').value = "-1";
+        document.getElementById('editFieldVersion').value = "1";
+
+        if((document.getElementById('editFieldBusiness').value === oldBusiness)
+        		&& (document.getElementById('editFieldHandleType').value === oldHandleType)
+        		&& (document.getElementById('editFieldHandleTemplate').value === oldHandleTemplate)){
+        	
+        	alert("To create a new record, at least one of: Business, HandleType, or HandleTemplate must be different from the original record.");
+        	return;
+        }
+        
+        this.form['action'] = "control?Action=Update&User=$User";
+        this.submit();
+        this.moveTo(-1000,-1000);        
+        
+	};
+    
+    var handleDelete = function() {
+        if(confirm("Are you sure you want to delete record " + document.getElementById('editFieldId').value + "?")) {
+        	document.getElementById('editFieldIsDeleted').value = "Y";
+        	this.form['action'] = "control?Action=Update&User=$User";
+            this.submit();
+            this.moveTo(-1000,-1000);
+        }
+    };
+    
+    var handleSubmit = function() {
+    	this.form['action'] = "control?Action=Update&User=$User";
+    	this.submit();
+    	this.moveTo(-1000,-1000);
+    };
+    
+    var handleCancel = function() {
+	    this.cancel();
+	    this.moveTo(-1000,-1000);
+    };
+    
+    // Remove progressively enhanced content class, just before creating the module
+    YAHOO.util.Dom.removeClass("editDialog", "yui-pe-content");
+
+    var buttons = [];
+    if( rowData.Id !== -1){
+        buttons.push({ text:"Create as New", handler:handleCreate });
+        buttons.push({ text:"Delete", handler:handleDelete });
+    }
+    buttons.push({ text:"Save", handler:handleSubmit, isDefault:true });
+    buttons.push({ text:"Cancel", handler:handleCancel });
+
+    var editDialog = new YAHOO.widget.Dialog("editDialog",
+        {
+            width : "40em",
+            fixedcenter : true,
+            visible : false,
+            constraintoviewport : false,
+            buttons : buttons,
+            close : false
+        }
+     );
+
+    editDialog.validate = function() {
+        var data = this.getData();  
+        if (data.business === "" || data.handleType === "" || data.handleTemplate === "") {
+        	alert('Primary key field cannot be blank');
+        	document.getElementById('editFieldHandleTemplate').focus();
+        	return false;
+        } else {
+        	return true;
+        }
+    };
+
+    editDialog.callback = { success: handleSuccess, failure: simpleFailureHandler };
+    toggleReadOnly(false);    
+
+    return editDialog;
+
+}
+
+function createRollbackDialog(handleSuccess, rowData){
+    
+    var handleRollback = function() {
+    	
+        if(confirm("Are you sure you want to rollback " + document.getElementById('editFieldId').value + " to this version?")) {
+        	this.form['action'] = "control?Action=Rollback&User=$User";
+        	this.submit();
+        	this.moveTo(-1000,-1000);
+        }    	
+    };
+    
+    var handleCancel = function() {
+	    this.cancel();
+	    this.moveTo(-1000,-1000);
+    };
+    
+    var buttons = [];
+    buttons.push({ text:"Rollback to this version", handler:handleRollback, isDefault:true });
+    buttons.push({ text:"Cancel", handler:handleCancel });
+    
+    var rollbackDialog = new YAHOO.widget.Dialog("editDialog",
+        {
+            width : "40em",
+            fixedcenter : true,
+            visible : false,
+            constraintoviewport : false,
+            buttons : buttons,
+            close : false
+        }
+     );
+    
+    rollbackDialog.callback = { success: handleSuccess, failure: simpleFailureHandler };
+    toggleReadOnly(true);
+    
+    
+    return rollbackDialog;
+}
+
+function toggleReadOnly(toggle){
+
+	document.getElementById('editFieldHandleTemplate').readOnly = toggle;
+	document.getElementById('editFieldHandleType').readOnly = toggle;
+	document.getElementById('editFieldVersion').readOnly = toggle;
+	document.getElementById('editFieldIsTemplate').readOnly = toggle;
+	document.getElementById('editFieldIsDeleted').readOnly = toggle;
+	document.getElementById('editFieldLastUpdatedBy').readOnly = toggle;
+	document.getElementById('editFieldLastUpdatedTime').readOnly = toggle;
+	document.getElementById('editFieldAnalyticMode').readOnly = toggle;
+	document.getElementById('editFieldAnalyticType').readOnly = toggle;
+	document.getElementById('editFieldAnalyticVersion').readOnly = toggle;
+	document.getElementById('editFieldAssetNames').readOnly = toggle;
+	document.getElementById('editFieldAssetNamesAlias').readOnly = toggle;
+	document.getElementById('editFieldDataMode').readOnly = toggle;
+	document.getElementById('editFieldDomesticCurrency').readOnly = toggle;
+	document.getElementById('editFieldForeignCurrencies').readOnly = toggle;
+	document.getElementById('editFieldMethodology').readOnly = toggle;
+	document.getElementById('editFieldObjectSubType').readOnly = toggle;
+	document.getElementById('editFieldObjectType').readOnly = toggle;
+	
+}
+
+
+function createDataSource(initialData, columnNames){
+	
+	var dataSource = new YAHOO.util.XHRDataSource( initialData, {
+    responseType: YAHOO.util.DataSource.TYPE_JSARRAY,
+    responseSchema: {
+        fields: columnNames
+    },
+    doBeforeCallback : function (req,raw,res,cb) {
+    	
+            // This is the filter function
+            var data     = res.results || [],
+                filtered = [],
+                i,l;
+
+            if (req) {
+
+                for(var n = 0, l = data.length; n < l; ++n) {
+                	
+                    var matchAll = true;
+                    for (var i = 0; i < req.length; ++i) {
+                        var key = req[i].key;
+                        var value = (typeof req[i].value === 'string') ? req[i].value.toLowerCase() : req[i].value;
+                        var dataVal = (typeof data[n][key] === 'string') ?  data[n][key] : '' + data[n][key];  // create string so we can use indexOf next...
+                        if (dataVal.toLowerCase().indexOf(value) === -1) {
+                            matchAll = false;
+                        }
+                    }
+                    if(matchAll){
+                        filtered.push(data[n]);
+                    }
+                }
+
+                res.results = filtered;
+            }
+
+            return res;
+        }
+    });
+
+    return dataSource;
+}
+
+
+</script>

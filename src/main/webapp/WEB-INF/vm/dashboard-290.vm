@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Tesla Market Data Key Mapper</title>
+    #parse("header-includes.vm")
+    
+	<style>
+		.noWrapRow {
+		  overflow: hidden; /* this is what fixes the expansion */
+		  text-overflow: ellipsis; /* not supported in all browsers, but I accepted the tradeoff */
+		  white-space: nowrap;
+		}
+	</style>
+    
+	<script>
+		
+		function backgroundRequest(sUrl) {
+			var successHandler = function(o){ alert(o.responseText + ' created.'); };
+			var failureHandle = function(o){ alert('Backup file not created.\n' + o.responseText); };
+			YAHOO.util.Connect.asyncRequest('GET', sUrl, {success:successHandler, failure: failureHandle}, null);
+			return true;
+		}
+		
+	</script>
+	
+</head>
+
+<body class="yui-skin-sam" >
+
+<div id="container"/>
+
+<div id="dashboard">
+
+    <div id="container-for-paginator" style="clear:both;">
+    
+		<div id="dashboardFilter" style="float:left;">
+		
+		    <label for="dashboardFilterValue">Filter by </label>
+
+		    <select id="dashboardFilterList" onchange="document.getElementById('dashboardFilterValue').value=''"></select>
+
+	        <input type="text" id="dashboardFilterValue" value="">
+	        
+		    <br>
+		    
+		</div>
+		<div style="float:right">
+		
+			<input type="button" onclick="window.open('control?Action=GetData&User=$User&CSV=true');" value=" XLS " title="Download to CSV" />
+			<input type="button" onclick="backgroundRequest('control?Action=GetData&User=$User&Backup=true');" value=" Backup " title="Creates a backup on the server" />
+		</div>
+		
+		<div id="dashboardFilterBreadcrumb" style="clear:both;padding-top:3px;padding-bottom:3px"></div>
+		        
+        <div id="dashboardDetailList" style="clear:both;"></div>
+    </div>
+    
+    <div id="version">version: $Version environment: $Env</div>
+
+</div>
+
+
+#parse("editDialog.vm")
+#parse("script-init.vm")
+
+</body>
+</html>
+
+
+

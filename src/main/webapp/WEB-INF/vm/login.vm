@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>Login</title>
+    <script type="text/javascript">window.onload=function(){initLogin();}</script>
+</head>
+<body class="yui-skin-sam">
+
+<div id="login" style="position:relative;border: 2px solid rgb(51, 119, 187); top: 118px; width:300px; margin:auto;">
+    <form>
+    <table>
+        <tbody>
+            <tr>
+                <td align="center" colspan="2">
+                <font size="5" color="#1122aa">Tesla Key Mapper</font>
+                <br>
+                </td>
+            </tr>
+            <tr><td>User</td><td><input id="User" type="text" name="User"></td></tr>
+            <tr><td></td><td><input type="submit" name="Action" value="Login"></td></tr>
+        </tbody>
+    </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    function initLogin()
+    {
+    var initFunction = new function()
+    {
+    var eUser = document.getElementById('User');
+    eUser.focus();
+    };
+    }
+</script>
+
+</body>
+</html>

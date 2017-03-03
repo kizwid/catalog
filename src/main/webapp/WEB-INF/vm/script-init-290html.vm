@@ -1,0 +1,365 @@
+<script type="text/javascript">
+
+	// reserved global vars:
+	// 1. clearFilter
+
+function initDashboard()
+{
+    functionalTools.init();
+
+
+    //YUI().use("datatable", "datatable-scroll", "datasource","panel","tabview", "dd-plugin", function(Y) {
+
+        cols = $keyMappingColumnJson;  // made this a global var
+        data = $keyMappingDataJson;
+        //TODO: get this from the controller?  Have to filter on those we want to hide; eg. version and isTemplate
+        columnAliases = ["Id","Business", "HandleType", "HandleTemplate","AnalyticMode", "AnalyticType", "AnalyticVersion", "AssetNames","AssetNamesAlias", "BusinessDate", "DataMode", "DomesticCurrency", "ForeignCurrencies", "HolidayCities", "Methodology", "ObjectSubType", "ObjectType","Version","LastUpdatedBy","LastUpdatedTime","IsTemplate","IsDeleted"];
+        var hiddenCols = ["IsDeleted","IsTemplate"];
+
+        //--------------------------------------------------//
+        //      create a local table (without datasource) 3.7.3
+        //--------------------------------------------------//
+        /*
+        var table = new Y.DataTable({
+            columns: cols,
+            data: data,
+            width:"100%",
+            height:"40em",
+            scrollable: true
+        });
+        table.render("#dashboardDetailList");
+        */
+
+        //--------------------------------------------------//
+        //      add datatable to markup  2.9.0
+        //--------------------------------------------------//
+        dataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("dashboardDetailTable"));
+        dataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
+        dataSource.responseSchema = {
+            fields: [
+                { key: "Id", parser:"number" },
+                { key: "Business" },
+                { key: "HandleType" },
+                { key: "HandleTemplate" },
+                { key: "AnalyticMode" },
+                { key: "AnalyticType" },
+                { key: "IsDeleted" },
+                { key: "Version" },
+                { key: "Action" }
+            ],
+            doBeforeCallback : function (req,raw,res,cb) {
+
+                    // This is the filter function
+                    var data     = res.results || [],
+                        filtered = [],
+                        i,l;
+
+                    if (req) {
+
+                        for(var n = 0, l = res.length; n < l; ++n) {
+                            var matchAll = true;
+                            for (var i = 0; i < req.length; ++i) {
+                                var key = req[i].key;
+                                var value = req[i].value.toLowerCase();
+                                if (res[n][key].toLowerCase().indexOf(value) === -1) {
+                                    matchAll = false;
+                                }
+                            }
+                            if(matchAll){
+                                filtered.push(data[n]);
+                            }
+                        }
+
+                        res.results = filtered;
+                    }
+
+                    return res;
+                }
+        };
+        var tableCols = [
+            { key: "Id", sortable:true },
+            { key: "Business", sortable:true },
+            { key: "HandleType", sortable:true },
+            { key: "HandleTemplate", sortable:true, resizeable:true },
+            { key: "AnalyticMode", sortable:true },
+            { key: "AnalyticType" },
+            { key: "IsDeleted" },
+            { key: "Version" },
+            { key: "Action" }
+        ];
+
+        table = new YAHOO.widget.DataTable("dashboardDetailList",
+           tableCols, dataSource, {scrollable:true,width:"100%",height:"50em", selectionMode:"single"});
+
+        //# if( $HasWriteAccess.bool )
+        table.subscribe("rowDblclickEvent", function (e, target) {
+            var oRecord = table.getRecord(e.target);
+
+            for(var selectedRow = 0; selectedRow < table.getSelectedRows().length; selectedRow++){
+                table.unselectRow(table.getSelectedRows()[selectedRow])
+            }
+
+            table.selectRow(oRecord);
+            saveOrUpdateRecord(oRecord.getData());
+        });
+        //# end
+
+
+
+    //}); //end Yui loader
+}
+
+
+//--------------------------------------------------//
+//      FILTERING
+//--------------------------------------------------//
+filterTimeout = null;
+var updateFilter = function (filterColumn, filterText) {
+
+    // Reset timeout
+    filterTimeout = null;
+
+    var query;
+    if( filterText === ""){
+
+        if(filterQuery.getQuery().length === 0){ return; }
+
+        query = filterQuery.clear(filterColumn);
+    }else {
+        query = filterQuery.append( {key:filterColumn, value:htmlEncode(filterText)} );
+    }
+
+    refreshDataSource(query);
+
+    //remember current filter
+    YAHOO.util.Cookie.set("filters", YAHOO.lang.JSON.stringify(query));
+
+};
+
+YAHOO.util.Event.on('filter','keyup',function (e) {
+
+    clearTimeout(filterTimeout);
+
+    setTimeout( "updateFilter(YAHOO.util.Dom.get('filterColumn').value, YAHOO.util.Dom.get('filter').value)", 600);
+
+});
+
+var filterQuery = {
+    query: [],
+    getQuery: function() { return this.query; },
+    reset: function() { this.query = []; return this.query;},
+    clear: function(key) {
+        this.query = this.query.filter(function(elem) { return elem['key'] !== key; }); return this.query;  },
+    getQueryValue: function(key) { var found = this.containsKey(key); return (found ? found['value'] : ''); },
+    containsKey: function(key) {
+        return (this.query.filter(function(elem) { return elem['key'] === key; }).length > 0); },
+    append: function(newJsonPair) {
+
+        var key = newJsonPair['key'];
+        if(this.containsKey(key)){
+            this.clear(key);
+        }
+
+        this.query.push(newJsonPair);
+        return this.query;
+    }
+};
+
+function refreshDataSource(q) {
+
+	var query = q || filterQuery.getQuery();
+
+    dataSource.sendRequest(query.concat({key:"IsDeleted", value:"N"}).makeSet(), {
+		success: table.onDataReturnInitializeTable,
+		failure: table.onDataReturnInitializeTable,
+        argument: table.getState(),
+		scope: table
+		});
+}
+
+function htmlEncode(str) {
+    return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function htmlDecode(str) {
+    return String(str)
+    .replace(/&amp/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+}
+
+
+//--------------------------------------------------//
+//      EDIT
+//--------------------------------------------------//
+function saveOrUpdateRecord(rowData){
+
+	var handleSuccess = function(o) {
+			var json = o.responseText;
+			var row = YAHOO.lang.JSON.parse(json);
+			addOrUpdateRow(row);
+		};
+
+    var editDialog = createEditDialog(handleSuccess, rowData);
+
+    if( rowData !== null){
+        //populate with existing data
+        populateDialogFromRow(rowData);
+
+        // Render the Dialog
+        editDialog.render();
+        if( rowData.IsDeleted === "N"){
+            editDialog.show();
+        } else {
+            editDialog.submit();
+        }
+    };
+
+}
+
+function addOrUpdateRow(row){
+    //find the row with the data we want to update (by Id)
+    var index = -1;
+    for(var i = 0; i < data.length; i++) {
+        if( row.Id === data[i].Id){
+            index = i;
+            break;
+        }
+    }
+    if( index > -1){
+        //data.splice(index, 1, row); //replace existing
+        table.updateRow(row, index);
+    }else {
+        //data.push(row); //add new
+        table.addRow(0, row)
+    }
+
+    refreshDataSource();
+}
+
+function refreshDataSource(q) {
+
+	var query = q || filterQuery.getQuery();
+
+    myDataSource.sendRequest(query.concat({key:"IsDeleted", value:"N"}).makeSet(), {
+		success: table.onDataReturnInitializeTable,
+		failure: table.onDataReturnInitializeTable,
+        argument: table.getState(),
+		scope: table
+		});
+}
+
+//update local cache with data from server
+function fullDataReload() {
+    var filters = filterQuery.getQuery();
+    YAHOO.util.Cookie.set("filters", YAHOO.lang.JSON.stringify(filters));
+    location.reload(true);
+}
+
+function createEditDialog(handleSuccess, rowData){
+    // Define various event handlers for Dialog
+    var handleClone = function() {
+        document.getElementById('editFieldId').value = "-1";
+        document.getElementById('editFieldVersion').value = "1";
+        document.getElementById('editFieldHandleTemplate').value = document.getElementById('editFieldHandleTemplate').value + '_clone';
+        /*remove clone/delete buttons*/
+        var buttons = this.getButtons();
+        buttons[0]._button.style.display = "none";
+        buttons[1]._button.style.display = "none";
+        buttons.removeChild(0);
+        buttons.removeChild(0);
+        /*
+        for(var i = 0; i < buttons.length; i++){
+            alert('button: ' + buttons[i]._button.innerHTML + " ," + buttons[i]._button.hidden);
+        }
+        */
+    };
+    var handleDelete = function() {
+        if(confirm("Are you sure you want to delete " + document.getElementById('editFieldId').value + "?")) {
+            document.getElementById('editFieldIsDeleted').value = "Y";
+            this.submit();
+        }
+    };
+    var handleSubmit = function() {
+    this.submit();
+    };
+    var handleCancel = function() {
+    this.cancel();
+    };
+    var handleFailure = function(o) {
+        alert('Submission failed'
+        + '\nstatus=' + o.status
+        + '\nstatusText=' + o.statusText
+        + '\n' + o.responseText
+        + '\n\nThe page will now reload, please again.');
+        //refresh underlying data
+        fullDataReload();
+    };
+
+    // Remove progressively enhanced content class, just before creating the module
+    YAHOO.util.Dom.removeClass("editDialog", "yui-pe-content");
+
+    var buttons = [];
+    if( rowData.Id !== -1){
+        buttons.push({ text:"Clone", handler:handleClone });
+        buttons.push({ text:"Delete", handler:handleDelete });
+    }
+    buttons.push({ text:"Save", handler:handleSubmit, isDefault:true });
+    buttons.push({ text:"Cancel", handler:handleCancel });
+
+    // Instantiate the Dialog
+    var editDialog = new YAHOO.widget.Dialog("editDialog",
+        {
+            width : "40em",
+            fixedcenter : true,
+            visible : false,
+            constraintoviewport : true,
+            buttons : buttons,
+            close:false
+        }
+     );
+
+    // Validate the entries in the form to require that both first and last name are entered
+    editDialog.validate = function() {
+        var data = this.getData();  //TODO: client side validation...
+        if (data.business === "" || data.handleType === "" || data.handleTemplate === "") {
+        alert('Primary key field cannot be blank');
+        document.getElementById('editFieldHandleTemplate').focus();
+        return false;
+        } else {
+        return true;
+        }
+    };
+
+    // Wire up the success and failure handlers
+    editDialog.callback = { success: handleSuccess,
+    failure: handleFailure };
+
+    return editDialog;
+
+}
+
+function populateDialogFromRow(rowData) {
+
+    //NB myDataSource.responseSchema is picked up from global variable rather than passed to function
+    for(var n = 0; n < columnAliases.length; n++ ){
+        try {
+            //var columnName = columnAliases[n].key;
+            var columnName = columnAliases[n];
+            var value = rowData[columnName];
+            if( typeof value === "undefined"){
+                value = "";
+            }
+            document.getElementById('editField' + columnName).value = htmlDecode(value);
+        }catch (e) {
+        }
+
+    };
+
+}
+
+
+</script>

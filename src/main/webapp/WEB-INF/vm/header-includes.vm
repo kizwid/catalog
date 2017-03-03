@@ -1,0 +1,47 @@
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+    <!-- local copy of yui css -->
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/tabview/assets/skins/sam/tabview.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/datatable/assets/skins/sam/datatable.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/menu/assets/skins/sam/menu.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/fonts/fonts-min.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/paginator/assets/skins/sam/paginator.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/container/assets/skins/sam/container.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/autocomplete/assets/skins/sam/autocomplete.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/button/assets/skins/sam/button.css"/>
+<!--
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/base/base-min.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/grids/grids-min.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/reset/reset-min.css"/>
+    <link rel="stylesheet" type="text/css" href="yui/2.9.0/build/container/assets/skins/sam/container.css"/>
+-->
+
+    <!-- local copy of yui js -->
+    <script type="text/javascript" src="yui/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/element/element-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/connection/connection-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/datasource/datasource-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/yahoo/yahoo-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/dom/dom-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/get/get-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/json/json-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/swf/swf-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/animation/animation-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/charts/charts-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/datatable/datatable-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/tabview/tabview-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/container/container_core-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/container/container-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/menu/menu-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/element-delegate/element-delegate-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/paginator/paginator-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/autocomplete/autocomplete-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/button/button-min.js"></script>
+    <script type="text/javascript" src="yui/2.9.0/build/cookie/cookie-min.js"></script>
+
+    <!-- home brewed js -->
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/functional-tools.js"></script>
+    <script type="text/javascript" src="js/Table.js"></script>
+    <script type="text/javascript">window.onload=function(){initDashboard();}</script>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{ISO8601}][%t][%p] %c - %m%n" />
+		</layout>
+	</appender>
+	<appender name="appender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${log.output.dir}/tesla-key-mapper-webapp.log" />
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{ISO8601}][%t][%p] %c  - %m%n" />
+		</layout>
+	</appender>
+	<category name="com.db" additivity="false">
+		<priority value="info" />
+		<appender-ref ref="appender" />
+	</category>
+	<category name="org.apache" additivity="false">
+		<priority value="error" />
+		<appender-ref ref="appender" />
+	</category>
+	<root>
+		<priority value="info" />
+		<appender-ref ref="appender" />
+	</root>
+
+</log4j:configuration>

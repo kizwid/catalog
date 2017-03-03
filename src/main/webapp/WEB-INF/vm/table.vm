@@ -1,0 +1,37 @@
+<div id="dashboardDetailList" style="clear:both;">
+<table id="dashboardDetailTable">
+<thead>
+<tr>
+<th align="left">ID</th>
+<th align="left">Business</th>
+<th align="left">HandleType</th>
+<th align="left">HandleTemplate</th>
+<th align="left">AnalyticMode</th>
+<th align="left">AnalyticType</th>
+<th align="left">IsDeleted</th>
+<th align="left">Version</th>
+<th align="left">Action</th>
+</tr>
+</thead>
+
+<tbody>
+#if($keyMappings.size() == 0)
+    <p>No data<p>
+#{else}
+    #foreach( $keyMapping in $keyMappings )
+        <tr>
+            <td>$keyMapping.id</td>
+            <td>$keyMapping.business</td>
+            <td>$keyMapping.handleType</td>
+            <td>$escapeTool.escapeHtml($keyMapping.handleTemplate)</td>
+            <td>$escapeTool.escapeHtml($keyMapping.key.analyticMode)</td>
+            <td>$escapeTool.escapeHtml($keyMapping.key.analyticType)</td>
+            <td>N</td>
+            <td>$keyMapping.version</td>
+            <td><button type="button" onclick="">edit</button></td>
+        </tr>
+    #end
+#end
+</tbody>
+</table>
+</div>

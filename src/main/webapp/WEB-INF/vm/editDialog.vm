@@ -1,0 +1,50 @@
+<style type="text/css">
+
+    .yui-pe .yui-pe-content {
+        display:none;
+    }
+
+    .yui-skin-sam .yui-dt tr.hiddenRow {
+    	 display:none;
+    }
+
+</style>
+
+
+<div id="editDialog" class="yui-pe-content">
+    <div class="hd">Update Tesla Key Mapping</div>
+    <div class="bd">
+        <form id="dialogForm" method="GET" >
+            <table style="width:100%;">
+            <tr><th><label for="Id">Id</label></th><td><input type="textbox" name="Id" readonly="true" id="editFieldId"/></td><tr>
+            <tr>
+                <th><label for="Business">Business</label></th>
+                <td><select name="Business" id="editFieldBusiness">
+                    <option selected="selected" value="GED">GED</option>
+                    </select>
+                </td>
+            <tr>
+            <tr><th><label for="HandleType">HandleType</label></th><td><input type="textbox" name="HandleType" id="editFieldHandleType"/></td><tr>
+            <tr><th><label for="HandleTemplate">HandleTemplate</label></th><td><input type="textbox" name="HandleTemplate" size="40" id="editFieldHandleTemplate"/></td><tr>
+            <!--<tr><th><label for="Version">Version</label></th><td>--><input type="hidden" name="Version" id="editFieldVersion"/><!--</td><tr>-->
+            <!--<tr><th><label for="IsTemplate">IsTemplate</label></th><td>--><input type="hidden" name="IsTemplate" id="editFieldIsTemplate"/><!--</td><tr>-->
+            <!--<tr><th><label for="IsDeleted">IsDeleted</label></th><td>--><input type="hidden" name="IsDeleted" id="editFieldIsDeleted"/><!--</td><tr>-->
+            <!--<tr><th><label for="LastUpdatedBy">LastUpdatedBy</label></th><td>--><input type="hidden" name="LastUpdatedBy" id="editFieldLastUpdatedBy"/><!--</td><tr>-->
+            <!--<tr><th><label for="LastUpdatedTime">LastUpdatedTime</label></th><td>--><input type="hidden" name="LastUpdatedTime" id="editFieldLastUpdatedTime"/><!--</td><tr>-->
+            <tr><th><label for="AnalyticMode">AnalyticMode</label></th><td><input type="textbox" name="AnalyticMode" id="editFieldAnalyticMode"/></td><tr>
+            <tr><th><label for="AnalyticType">AnalyticType</label></th><td><input type="textbox" name="AnalyticType" id="editFieldAnalyticType"/></td><tr>
+            <tr><th><label for="AnalyticVersion">AnalyticVersion</label></th><td><input type="textbox" name="AnalyticVersion" id="editFieldAnalyticVersion"/></td><tr>
+            <tr><th><label for="AssetNames">AssetNames</label></th><td><input type="textbox" name="AssetNames" id="editFieldAssetNames"/></td><tr>
+            <tr><th><label for="AssetNamesAlias">AssetNamesAlias</label></th><td><input type="textbox" name="AssetNamesAlias" id="editFieldAssetNamesAlias"/></td><tr>
+            <tr><th><label for="BusinessDate">BusinessDate</label></th><td><input type="textbox" name="BusinessDate" readonly="true" disabled="true" id="editFieldBusinessDate"/></td><tr>
+            <tr><th><label for="DataMode">DataMode</label></th><td><input type="textbox" name="DataMode" id="editFieldDataMode"/></td><tr>
+            <tr><th><label for="DomesticCurrency">DomesticCurrency</label></th><td><input type="textbox" name="DomesticCurrency" id="editFieldDomesticCurrency"/></td><tr>
+            <tr><th><label for="ForeignCurrencies">ForeignCurrencies</label></th><td><input type="textbox" name="ForeignCurrencies" id="editFieldForeignCurrencies"/></td><tr>
+            <tr><th><label for="HolidayCities">HolidayCities</label></th><td><input type="textbox" name="HolidayCities" readonly="true" disabled="true" id="editFieldHolidayCities"/></td><tr>
+            <tr><th><label for="Methodology">Methodology</label></th><td><input type="textbox" name="Methodology" id="editFieldMethodology"/></td><tr>
+            <tr><th><label for="ObjectSubType">ObjectSubType</label></th><td><input type="textbox" name="ObjectSubType" id="editFieldObjectSubType"/></td><tr>
+            <tr><th><label for="ObjectType">ObjectType</label></th><td><input type="textbox" name="ObjectType" id="editFieldObjectType"/></td><tr>
+            </table>
+        </form>
+    </div>
+</div>
