@@ -102,7 +102,7 @@ function populateFilter(columnArray, source) {
 			var opt = document.createElement("option");
 			opt.value = columnNameArray[i];
 			opt.text = columnNameArray[i].replace(/([A-Z])/g, ' $1');
-			if(columnNameArray[i] === "HandleTemplate") {   opt.selected = "selected";   }
+			if(columnNameArray[i] === "Name") {   opt.selected = "selected";   }
 			
 			sourceSelect.options.add(opt);		
 		}

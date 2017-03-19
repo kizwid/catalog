@@ -12,7 +12,7 @@
 
 
 <div id="editDialog" class="yui-pe-content">
-    <div class="hd">Update Tesla Key Mapping</div>
+    <div class="hd">Catalog Demo</div>
     <div class="bd">
         <form id="dialogForm" method="GET" >
             <table style="width:100%;">

@@ -32,7 +32,7 @@ public class WebServer implements Runnable{
     private final String webAppDir;
 
     public static final int DEFAULT_PORT = 9191;
-    public static final String DEFAULT_CONTEXTPATH = "/tesla-key-mapper";
+    public static final String DEFAULT_CONTEXTPATH = "/catalog";
 
     public WebServer(int httpPort, String contextPath, CountDownLatch latch) {
         this(httpPort, contextPath, latch, DEFAULT_WEBAPPDIR);
@@ -75,7 +75,7 @@ public class WebServer implements Runnable{
 
             Constraint constraint = new Constraint();
             constraint.setName(Constraint.__BASIC_AUTH);//__FORM_AUTH  __BASIC_AUTH
-            constraint.setRoles(new String[]{"tester","gmrsk_SUPPORT","gmrsk_TESLA_KEY_MAPPING_ADMIN" });
+            constraint.setRoles(new String[]{"tester","support","admin" });
             constraint.setAuthenticate(true);
 
             ConstraintMapping cm = new ConstraintMapping();
@@ -87,7 +87,7 @@ public class WebServer implements Runnable{
             sh.setUserRealm(userRealm); //tomcat:tomcat,tomcat
 //                userRealm.put("t", "t");
 //                userRealm.addUserToRole("t", "tester");
-//                userRealm.addUserToRole("t", "gmrsk_SUPPORT");
+//                userRealm.addUserToRole("t", "support");
             sh.setUserRealm(userRealm);
             sh.setConstraintMappings(new ConstraintMapping[]{cm});
             webAppContext.setSecurityHandler(sh);

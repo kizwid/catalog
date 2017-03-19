@@ -13,8 +13,8 @@ function initDashboard()
         cols = $keyMappingColumnJson;  // made this a global var
         data = $keyMappingDataJson;
         //TODO: get this from the controller?  Have to filter on those we want to hide; eg. version and isTemplate
-        columnAliases = ["Id","Business", "HandleType", "HandleTemplate","AnalyticMode", "AnalyticType", "AnalyticVersion", "AssetNames","AssetNamesAlias", "BusinessDate", "DataMode", "DomesticCurrency", "ForeignCurrencies", "HolidayCities", "Methodology", "ObjectSubType", "ObjectType","Version","LastUpdatedBy","LastUpdatedTime","IsTemplate","IsDeleted"];
-        var hiddenCols = ["IsDeleted","IsTemplate"];
+        columnAliases = ["Id", "Name", "Season","Magazine", "Article"];
+        var hiddenCols = ["none"];
 
         //--------------------------------------------------//
         //      create a local table (without datasource) 3.7.3
@@ -38,14 +38,10 @@ function initDashboard()
         dataSource.responseSchema = {
             fields: [
                 { key: "Id", parser:"number" },
-                { key: "Business" },
-                { key: "HandleType" },
-                { key: "HandleTemplate" },
-                { key: "AnalyticMode" },
-                { key: "AnalyticType" },
-                { key: "IsDeleted" },
-                { key: "Version" },
-                { key: "Action" }
+                { key: "Name" },
+                { key: "Season" },
+                { key: "Magazine" },
+                { key: "Artile" }
             ],
             doBeforeCallback : function (req,raw,res,cb) {
 
@@ -78,14 +74,10 @@ function initDashboard()
         };
         var tableCols = [
             { key: "Id", sortable:true },
-            { key: "Business", sortable:true },
-            { key: "HandleType", sortable:true },
-            { key: "HandleTemplate", sortable:true, resizeable:true },
-            { key: "AnalyticMode", sortable:true },
-            { key: "AnalyticType" },
-            { key: "IsDeleted" },
-            { key: "Version" },
-            { key: "Action" }
+            { key: "Name", sortable:true },
+            { key: "Season", sortable:true },
+            { key: "Magazine", sortable:true, resizeable:true },
+            { key: "Article" }
         ];
 
         table = new YAHOO.widget.DataTable("dashboardDetailList",

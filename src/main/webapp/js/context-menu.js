@@ -36,7 +36,7 @@ var onContextMenuClick = function(p_sType, p_aArgs, p_myDataTable) {
 
                 case 0:     // Create New
 
-                    var newRow = {Id:-1, IsTemplate:"Y", IsDeleted:"N", Version:1, LastUpdatedBy:"system", Business:"GED", BusinessDate:"&lt;YYYYMMDD&gt;", HolidayCities:"&lt;HOLIDAY_CITY&gt;"};
+                    var newRow = {Id:-1, Name:"Unknown", Season:"Unknown", Magazine:"Unknown", Article:"Unknown"};
                     saveOrUpdateRecord(newRow);
                 	break;
 

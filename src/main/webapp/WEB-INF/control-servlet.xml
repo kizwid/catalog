@@ -16,6 +16,7 @@
         <entry key="Build.Version" value="1.0"/>
         <entry key="Build.Timestamp" value="just-now"/>
         <entry key="appEnv" value="test"/>
+
         <entry key="readAccessRole" value="super"/>
         <entry key="writeAccessRole" value="super"/>
     </util:map>

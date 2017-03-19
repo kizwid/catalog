@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.*;
 
-import static sandkev.web.TeslaMarketDataKeyField.getAsStringArray;
+import static sandkev.web.CatalogItemKeyField.getAsStringArray;
 
 
 /**
@@ -81,9 +81,15 @@ public class Controller implements org.springframework.web.servlet.mvc.Controlle
             case GetData:
                 try {
                     List<CatalogItem> filtered = new LinkedList<CatalogItem>();
-                    List<CatalogItem> teslaCatalogItems = dao.find(SimpleCriteria.EMPTY_CRITERIA);
-                    if(teslaCatalogItems==null){
-                        teslaCatalogItems = Collections.emptyList();
+                    List<CatalogItem> catalogItems = dao.find(SimpleCriteria.EMPTY_CRITERIA);
+                    if(catalogItems==null){
+                        catalogItems = Collections.emptyList();
+                    }
+                    if(catalogItems.size()==0){
+                        for (int n = 0; n < 10; n++) {
+                            dao.save( new CatalogItem("Item-" + n, "a", "b", "c"));
+                        }
+                        catalogItems = dao.find(SimpleCriteria.EMPTY_CRITERIA);
                     }
 
                     //read filter from request
@@ -99,7 +105,7 @@ public class Controller implements org.springframework.web.servlet.mvc.Controlle
                             criteria.put(filterColumns[n], filterTexts[n]);
                         }
 
-                        for (CatalogItem entity : teslaCatalogItems) {
+                        for (CatalogItem entity : catalogItems) {
                             //convert mapping to same format that is used in the UI view
                             Map<String, String> rowData = CatalogItemToSimpleDataMap(entity);
                             boolean matchAll = true;
@@ -116,7 +122,7 @@ public class Controller implements org.springframework.web.servlet.mvc.Controlle
                             }
                         }
                     }else {
-                        filtered.addAll(teslaCatalogItems);
+                        filtered.addAll(catalogItems);
                     }
                     
                     
@@ -153,7 +159,7 @@ public class Controller implements org.springframework.web.servlet.mvc.Controlle
         	
             try{
                 String key = ent.getKey();
-                TeslaMarketDataKeyField field = TeslaMarketDataKeyField.fromFieldName(key);
+                CatalogItemKeyField field = CatalogItemKeyField.fromFieldName(key);
                 final String value = ent.getValue()[0];
                 if(StringUtils.isBlank(value) || EMPTY_ATTRIBUTE.equals(value)){
                     continue;//don't add null/empty fields
@@ -207,9 +213,17 @@ public class Controller implements org.springframework.web.servlet.mvc.Controlle
 
     private Map<String, Object> dashboard(HttpServletRequest request, Map<String, Object> model) throws NoSuchAlgorithmException {
 
-        List<CatalogItem> teslaCatalogItems = dao.find(SimpleCriteria.EMPTY_CRITERIA);
+        List<CatalogItem> catalogItems = dao.find(SimpleCriteria.EMPTY_CRITERIA);
+
+        if(catalogItems.size()==0){
+            for (int n = 0; n < 10; n++) {
+                dao.save( new CatalogItem("Item-" + n, "a", "b", "c"));
+            }
+            catalogItems = dao.find(SimpleCriteria.EMPTY_CRITERIA);
+        }
+
         model.put("keyMappingColumnJson", toCatalogItemColumnJson(COLUMNS));
-        model.put("keyMappings", teslaCatalogItems);
+        model.put("keyMappings", catalogItems);
         model.put("Version", buildVersion + "[" + buildTimestamp + "]");
         model.put("Env", appEnv);
         

@@ -1,10 +1,10 @@
 <div id="simpleFilter" style="float:left;">
     <label for="filter">Filter by </label>
     <select id="filterColumn" onchange="document.getElementById('filter').value=''">
-        #set($filterColumns=["Business", "HandleType", "HandleTemplate","AnalyticMode", "AnalyticType", "AnalyticVersion", "AssetNames","AssetNamesAlias", "BusinessDate", "DataMode", "DomesticCurrency", "ForeignCurrencies", "HolidayCities", "Methodology", "ObjectSubType", "ObjectType", "Version","LastUpdatedBy","LastUpdatedTime"])
+        #set($filterColumns=["Id", "Name", "Season","Magazine", "Article"])
         #foreach( $column in $filterColumns )
             <option value="$column"
-                #if( $column == "HandleTemplate")
+                #if( $column == "Name")
                     selected="selected"
                 #end
                 >$column</option>

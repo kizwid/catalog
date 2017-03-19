@@ -10,7 +10,7 @@ function decorateTable(_table, _breadcrumb, _filterTextBox, _hiddenCols, _defaul
 	
 	functionalTools.init();
 	
-	var hiddenCols = ["IsTemplate"].concat(_hiddenCols).makeSet();   //["IsDeleted"];
+	var hiddenCols = ["Article"].concat(_hiddenCols).makeSet();   //["IsDeleted"];
 
 	decoratedTable['breadcrumb'] = _breadcrumb;
 	

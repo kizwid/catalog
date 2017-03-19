@@ -9,6 +9,10 @@ import org.mortbay.jetty.HttpHeaders;
 import org.mortbay.jetty.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sandkev.AbstractDbMaintainDatabaseTest;
+import sandkev.catalog.CatalogItem;
+import sandkev.catalog.CatalogItemDao;
+import sandkev.catalog.CatalogItemDaoImpl;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedReader;
@@ -34,12 +38,12 @@ import static org.junit.Assert.assertTrue;
         "classpath:spring/jdbc.spring.xml"
         })
 */
-public class ControllerTest {
+public class ControllerTest extends AbstractDbMaintainDatabaseTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ControllerTest.class);
     public static final int PORT = 9195;
     public static final String HOST = "localhost";
-    public static final String CONTEXTPATH = "/tesla-key-mapper";
+    public static final String CONTEXTPATH = "/catalog";
     public static final String URL_BASE = "http://" + HOST + ":" + PORT + CONTEXTPATH +"/control?";
     private Executor executor;
     private static WebServer webServer;
@@ -65,6 +69,18 @@ public class ControllerTest {
             latch.await();
             System.out.println("****** started webserver **********");
             System.out.println(URL_BASE);
+
+            CatalogItemDao dao = new CatalogItemDaoImpl(dataSource);
+            CatalogItem catalogItem = new CatalogItem("Kevin", "Summer", "One", "Cool");
+            dao.save(catalogItem);
+
+            CatalogItem checkById = dao.findById(catalogItem.getId());
+            assertEquals(catalogItem, checkById);
+
+            for (int n = 0; n < 10; n++) {
+                dao.save( new CatalogItem("Item-" + n, "a", "b", "c"));
+            }
+
         }
 
         webClient = new WebClient();
@@ -76,7 +92,7 @@ public class ControllerTest {
     @Test
     public void canLoadDashboard() throws Exception {
         final HtmlPage page = webClient.getPage(URL_BASE + "Action=Dashboard&User=unitTest");
-        assertEquals("Tesla Market Data Key Mapper", page.getTitleText());
+        assertEquals("Catalog Viewer Demo", page.getTitleText());
 
         final String pageAsXml = page.asXml();
         assertTrue(pageAsXml.contains("function initDashboard()"));
@@ -110,7 +126,7 @@ public class ControllerTest {
 
 
         CountDownLatch latch = new CountDownLatch(1);
-        latch.await();
+        //latch.await();
     }
 
 /*

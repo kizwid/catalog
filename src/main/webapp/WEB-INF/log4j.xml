@@ -8,7 +8,7 @@
 		</layout>
 	</appender>
 	<appender name="appender" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${log.output.dir}/tesla-key-mapper-webapp.log" />
+		<param name="File" value="${log.output.dir}/catalog-demo-webapp.log" />
 		<param name="Append" value="true" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%d{ISO8601}][%t][%p] %c  - %m%n" />

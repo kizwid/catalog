@@ -1,11 +1,12 @@
 package sandkev.catalog;
 
 import org.junit.Test;
-import sandkev.AbstractDatabaseTest;
 import sandkev.AbstractDbMaintainDatabaseTest;
-import sandkev.AbstractFlywayDatabaseTest;
+import sandkev.shared.dao.SimpleCriteria;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by kevsa on 06/02/2017.
@@ -29,6 +30,9 @@ public class CatalogItemDaoImplTest
         for (int n = 0; n < 10; n++) {
             dao.save( new CatalogItem("Item-" + n, "a", "b", "c"));
         }
+
+        List<CatalogItem> catalogItems = dao.find(SimpleCriteria.EMPTY_CRITERIA);
+
 
     }
 

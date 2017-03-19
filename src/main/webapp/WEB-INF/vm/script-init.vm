@@ -69,7 +69,7 @@
             //      add tabs
             //---------------------------------//
             var tabView = new YAHOO.widget.TabView();
-           	tabView.addTab(new YAHOO.widget.Tab({label: 'Tesla Key Mapper', contentEl: document.getElementById('dashboard'), active: true }));
+           	tabView.addTab(new YAHOO.widget.Tab({label: 'Catalog Demo', contentEl: document.getElementById('dashboard'), active: true }));
 
             //forward the click event from the tab to the key Mapping Table
             tabView.getTab(0).addListener("click", function() {keyMappingTable.refreshDataSource(keyMappingTable['filterQuery'].getQuery());});
